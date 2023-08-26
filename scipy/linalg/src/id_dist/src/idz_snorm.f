@@ -82,7 +82,7 @@ c            13 (4): 1992, 1094-1122.
 c
         implicit none
         integer m,n,its,it,n2,k
-        real*8 snorm,enorm
+        real*8 snorm,enorm_
         complex*16 p1a,p2a,p3a,p4a,p1,p2,p3,p4,u(m),v(n)
         external matveca,matvec
 c
@@ -101,10 +101,10 @@ c
 c
 c       Normalize v.
 c
-        call idz_enorm(n,v,enorm)
+        call idz_enorm(n,v,enorm_)
 c
         do k = 1,n
-          v(k) = v(k)/enorm
+          v(k) = v(k)/enorm_
         enddo ! k
 c
 c
@@ -141,7 +141,7 @@ c
 c
 c
 c
-        subroutine idz_enorm(n,v,enorm)
+        subroutine idz_enorm(n,v,enorm_)
 c
 c       computes the Euclidean norm of v, the square root
 c       of the sum of the squares of the absolute values
@@ -156,17 +156,17 @@ c       enorm -- Euclidean norm of v
 c
         implicit none
         integer n,k
-        real*8 enorm
+        real*8 enorm_
         complex*16 v(n)
 c
 c
-        enorm = 0
+        enorm_ = 0
 c
         do k = 1,n
-          enorm = enorm+v(k)*conjg(v(k))
+          enorm_ = enorm_+v(k)*conjg(v(k))
         enddo ! k
 c
-        enorm = sqrt(enorm)
+        enorm_= sqrt(enorm_)
 c
 c
         return
@@ -334,7 +334,7 @@ c       for further documentation.)
 c
         implicit none
         integer m,n,its,it,n2,k
-        real*8 snorm,enorm
+        real*8 snorm,enorm_
         complex*16 p1a,p2a,p3a,p4a,p1a2,p2a2,p3a2,p4a2,
      1             p1,p2,p3,p4,p12,p22,p32,p42,u(m),u1(m),u2(m),
      2             v(n),v1(n),v2(n)
@@ -355,10 +355,10 @@ c
 c
 c       Normalize v.
 c
-        call idz_enorm(n,v,enorm)
+        call idz_enorm(n,v,enorm_)
 c
         do k = 1,n
-          v(k) = v(k)/enorm
+          v(k) = v(k)/enorm_
         enddo ! k
 c
 c

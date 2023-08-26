@@ -1,5 +1,5 @@
       recursive
-     *subroutine r1updt(m,n,s,ls,u,v,w,sing)
+     *subroutine r1updt_(m,n,s,ls,u,v,w,sing)
       integer m,n,ls
       logical sing
       double precision s(ls),u(m),v(n),w(m)
@@ -74,12 +74,12 @@ c     **********
       integer i,j,jj,l,nmj,nm1
       double precision cos,cotan,giant,one,p5,p25,sin,tan,tau,temp,
      *                 zero
-      double precision dpmpar
+      double precision dpmpar_
       data one,p5,p25,zero /1.0d0,5.0d-1,2.5d-1,0.0d0/
 c
 c     giant is the largest magnitude.
 c
-      giant = dpmpar(3)
+      giant = dpmpar_(3)
 c
 c     initialize the diagonal element pointer.
 c

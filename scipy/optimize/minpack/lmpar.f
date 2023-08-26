@@ -1,5 +1,5 @@
       recursive
-     *subroutine lmpar(n,r,ldr,ipvt,diag,qtb,delta,par,x,sdiag,wa1,
+     *subroutine lmpar_(n,r,ldr,ipvt,diag,qtb,delta,par,x,sdiag,wa1,
      *                 wa2)
       integer n,ldr
       integer ipvt(n)
@@ -103,12 +103,12 @@ c     **********
       integer i,iter,j,jm1,jp1,k,l,nsing
       double precision dxnorm,dwarf,fp,gnorm,parc,parl,paru,p1,p001,
      *                 sum,temp,zero
-      double precision dpmpar,enorm
+      double precision dpmpar_,enorm_
       data p1,p001,zero /1.0d-1,1.0d-3,0.0d0/
 c
 c     dwarf is the smallest positive magnitude.
 c
-      dwarf = dpmpar(2)
+      dwarf = dpmpar_(2)
 c
 c     compute and store in x the gauss-newton direction. if the
 c     jacobian is rank-deficient, obtain a least squares solution.
@@ -145,7 +145,7 @@ c
       do 70 j = 1, n
          wa2(j) = diag(j)*x(j)
    70    continue
-      dxnorm = enorm(n,wa2)
+      dxnorm = enorm_(n,wa2)
       fp = dxnorm - delta
       if (fp .le. p1*delta) go to 220
 c
@@ -169,7 +169,7 @@ c
   100    continue
          wa1(j) = (wa1(j) - sum)/r(j,j)
   110    continue
-      temp = enorm(n,wa1)
+      temp = enorm_(n,wa1)
       parl = ((fp/delta)/temp)/temp
   120 continue
 c
@@ -183,7 +183,7 @@ c
          l = ipvt(j)
          wa1(j) = sum/diag(l)
   140    continue
-      gnorm = enorm(n,wa1)
+      gnorm = enorm_(n,wa1)
       paru = gnorm/delta
       if (paru .eq. zero) paru = dwarf/dmin1(delta,p1)
 c
@@ -206,11 +206,11 @@ c
          do 160 j = 1, n
             wa1(j) = temp*diag(j)
   160       continue
-         call qrsolv(n,r,ldr,ipvt,wa1,qtb,x,sdiag,wa2)
+         call qrsolv_(n,r,ldr,ipvt,wa1,qtb,x,sdiag,wa2)
          do 170 j = 1, n
             wa2(j) = diag(j)*x(j)
   170       continue
-         dxnorm = enorm(n,wa2)
+         dxnorm = enorm_(n,wa2)
          temp = fp
          fp = dxnorm - delta
 c
@@ -238,7 +238,7 @@ c
   190          continue
   200       continue
   210       continue
-         temp = enorm(n,wa1)
+         temp = enorm_(n,wa1)
          parc = ((fp/delta)/temp)/temp
 c
 c        depending on the sign of the function, update parl or paru.

@@ -1,5 +1,5 @@
       recursive
-     *subroutine qrfac(m,n,a,lda,pivot,ipvt,lipvt,rdiag,acnorm,wa)
+     *subroutine qrfac_(m,n,a,lda,pivot,ipvt,lipvt,rdiag,acnorm,wa)
       integer m,n,lda,lipvt
       integer ipvt(lipvt)
       logical pivot
@@ -81,17 +81,17 @@ c
 c     **********
       integer i,j,jp1,k,kmax,minmn
       double precision ajnorm,epsmch,one,p05,sum,temp,zero
-      double precision dpmpar,enorm
+      double precision dpmpar_,enorm_
       data one,p05,zero /1.0d0,5.0d-2,0.0d0/
 c
 c     epsmch is the machine precision.
 c
-      epsmch = dpmpar(1)
+      epsmch = dpmpar_(1)
 c
 c     compute the initial column norms and initialize several arrays.
 c
       do 10 j = 1, n
-         acnorm(j) = enorm(m,a(1,j))
+         acnorm(j) = enorm_(m,a(1,j))
          rdiag(j) = acnorm(j)
          wa(j) = rdiag(j)
          if (pivot) ipvt(j) = j
@@ -125,7 +125,7 @@ c
 c        compute the householder transformation to reduce the
 c        j-th column of a to a multiple of the j-th unit vector.
 c
-         ajnorm = enorm(m-j+1,a(j,j))
+         ajnorm = enorm_(m-j+1,a(j,j))
          if (ajnorm .eq. zero) go to 100
          if (a(j,j) .lt. zero) ajnorm = -ajnorm
          do 50 i = j, m
@@ -151,7 +151,7 @@ c
             temp = a(j,k)/rdiag(k)
             rdiag(k) = rdiag(k)*dsqrt(dmax1(zero,one-temp**2))
             if (p05*(rdiag(k)/wa(k))**2 .gt. epsmch) go to 80
-            rdiag(k) = enorm(m-j,a(jp1,k))
+            rdiag(k) = enorm_(m-j,a(jp1,k))
             wa(k) = rdiag(k)
    80       continue
    90       continue

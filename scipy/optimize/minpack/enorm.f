@@ -1,5 +1,5 @@
       recursive
-     *double precision function enorm(n,x)
+     *double precision function enorm_(n,x)
       integer n
       double precision x(n)
 c     **********
@@ -89,17 +89,17 @@ c
 c     calculation of norm.
 c
       if (s1 .eq. zero) go to 100
-         enorm = x1max*dsqrt(s1+(s2/x1max)/x1max)
+         enorm_ = x1max*dsqrt(s1+(s2/x1max)/x1max)
          go to 130
   100 continue
          if (s2 .eq. zero) go to 110
             if (s2 .ge. x3max)
-     *         enorm = dsqrt(s2*(one+(x3max/s2)*(x3max*s3)))
+     *         enorm_ = dsqrt(s2*(one+(x3max/s2)*(x3max*s3)))
             if (s2 .lt. x3max)
-     *         enorm = dsqrt(x3max*((s2/x3max)+(x3max*s3)))
+     *         enorm_= dsqrt(x3max*((s2/x3max)+(x3max*s3)))
             go to 120
   110    continue
-            enorm = x3max*dsqrt(s3)
+            enorm_ = x3max*dsqrt(s3)
   120    continue
   130 continue
       return

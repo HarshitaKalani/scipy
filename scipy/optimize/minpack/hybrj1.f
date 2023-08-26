@@ -1,5 +1,5 @@
       recursive
-     *subroutine hybrj1(fcn,n,x,fvec,fjac,ldfjac,tol,info,wa,lwa)
+     *subroutine hybrj1_(fcn,n,x,fvec,fjac,ldfjac,tol,info,wa,lwa)
       integer n,ldfjac,info,lwa
       double precision tol
       double precision x(n),fvec(n),fjac(ldfjac,n),wa(lwa)
@@ -116,7 +116,7 @@ c
    10    continue
       nprint = 0
       lr = (n*(n + 1))/2
-      call hybrj(fcn,n,x,fvec,fjac,ldfjac,xtol,maxfev,wa(1),mode,
+      call hybrj_(fcn,n,x,fvec,fjac,ldfjac,xtol,maxfev,wa(1),mode,
      *           factor,nprint,info,nfev,njev,wa(6*n+1),lr,wa(n+1),
      *           wa(2*n+1),wa(3*n+1),wa(4*n+1),wa(5*n+1))
       if (info .eq. 5) info = 4

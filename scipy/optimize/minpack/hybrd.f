@@ -1,5 +1,5 @@
       recursive
-     *subroutine hybrd(fcn,n,x,fvec,xtol,maxfev,ml,mu,epsfcn,diag,
+     *subroutine hybrd_(fcn,n,x,fvec,xtol,maxfev,ml,mu,epsfcn,diag,
      *                 mode,factor,nprint,info,nfev,fjac,ldfjac,r,lr,
      *                 qtf,wa1,wa2,wa3,wa4)
       integer n,maxfev,ml,mu,mode,nprint,info,nfev,ldfjac,lr
@@ -169,13 +169,13 @@ c     **********
       double precision actred,delta,epsmch,fnorm,fnorm1,one,pnorm,
      *                 prered,p1,p5,p001,p0001,ratio,sum,temp,xnorm,
      *                 zero
-      double precision dpmpar,enorm
+      double precision dpmpar_,enorm_
       data one,p1,p5,p001,p0001,zero
      *     /1.0d0,1.0d-1,5.0d-1,1.0d-3,1.0d-4,0.0d0/
 c
 c     epsmch is the machine precision.
 c
-      epsmch = dpmpar(1)
+      epsmch = dpmpar_(1)
 c
       info = 0
       iflag = 0
@@ -199,7 +199,7 @@ c
       call fcn(n,x,fvec,iflag)
       nfev = 1
       if (iflag .lt. 0) go to 300
-      fnorm = enorm(n,fvec)
+      fnorm = enorm_(n,fvec)
 c
 c     determine the number of calls to fcn needed to compute
 c     the jacobian matrix.
@@ -222,14 +222,14 @@ c
 c        calculate the jacobian matrix.
 c
          iflag = 2
-         call fdjac1(fcn,n,x,fvec,fjac,ldfjac,iflag,ml,mu,epsfcn,wa1,
+         call fdjac1_(fcn,n,x,fvec,fjac,ldfjac,iflag,ml,mu,epsfcn,wa1,
      *               wa2)
          nfev = nfev + msum
          if (iflag .lt. 0) go to 300
 c
 c        compute the qr factorization of the jacobian.
 c
-         call qrfac(n,n,fjac,ldfjac,.false.,iwa,1,wa1,wa2,wa3)
+         call qrfac_(n,n,fjac,ldfjac,.false.,iwa,1,wa1,wa2,wa3)
 c
 c        on the first iteration and if mode is 1, scale according
 c        to the norms of the columns of the initial jacobian.
@@ -248,7 +248,7 @@ c
          do 60 j = 1, n
             wa3(j) = diag(j)*x(j)
    60       continue
-         xnorm = enorm(n,wa3)
+         xnorm = enorm_(n,wa3)
          delta = factor*xnorm
          if (delta .eq. zero) delta = factor
    70    continue
@@ -289,7 +289,7 @@ c
 c
 c        accumulate the orthogonal factor in fjac.
 c
-         call qform(n,n,fjac,ldfjac,wa1)
+         call qform_(n,n,fjac,ldfjac,wa1)
 c
 c        rescale if necessary.
 c
@@ -313,7 +313,7 @@ c
 c
 c           determine the direction p.
 c
-            call dogleg(n,r,lr,diag,qtf,delta,wa1,wa2,wa3)
+            call dogleg_(n,r,lr,diag,qtf,delta,wa1,wa2,wa3)
 c
 c           store the direction p and x + p. calculate the norm of p.
 c
@@ -322,7 +322,7 @@ c
                wa2(j) = x(j) + wa1(j)
                wa3(j) = diag(j)*wa1(j)
   200          continue
-            pnorm = enorm(n,wa3)
+            pnorm = enorm_(n,wa3)
 c
 c           on the first iteration, adjust the initial step bound.
 c
@@ -334,7 +334,7 @@ c
             call fcn(n,wa2,wa4,iflag)
             nfev = nfev + 1
             if (iflag .lt. 0) go to 300
-            fnorm1 = enorm(n,wa4)
+            fnorm1 = enorm_(n,wa4)
 c
 c           compute the scaled actual reduction.
 c
@@ -352,7 +352,7 @@ c
   210             continue
                wa3(i) = qtf(i) + sum
   220          continue
-            temp = enorm(n,wa3)
+            temp = enorm_(n,wa3)
             prered = zero
             if (temp .lt. fnorm) prered = one - (temp/fnorm)**2
 c
@@ -388,7 +388,7 @@ c
                wa2(j) = diag(j)*x(j)
                fvec(j) = wa4(j)
   250          continue
-            xnorm = enorm(n,wa2)
+            xnorm = enorm_(n,wa2)
             fnorm = fnorm1
             iter = iter + 1
   260       continue
@@ -433,9 +433,9 @@ c
 c
 c           compute the qr factorization of the updated jacobian.
 c
-            call r1updt(n,n,r,lr,wa1,wa2,wa3,sing)
-            call r1mpyq(n,n,fjac,ldfjac,wa2,wa3)
-            call r1mpyq(1,n,qtf,1,wa2,wa3)
+            call r1updt_(n,n,r,lr,wa1,wa2,wa3,sing)
+            call r1mpyq_(n,n,fjac,ldfjac,wa2,wa3)
+            call r1mpyq_(1,n,qtf,1,wa2,wa3)
 c
 c           end of the inner loop.
 c

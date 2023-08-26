@@ -1,5 +1,5 @@
       recursive
-     *subroutine chkder(m,n,x,fvec,fjac,ldfjac,xp,fvecp,mode,err)
+     *subroutine chkder_(m,n,x,fvec,fjac,ldfjac,xp,fvecp,mode,err)
       integer m,n,ldfjac,mode
       double precision x(n),fvec(m),fjac(ldfjac,n),xp(n),fvecp(m),
      *                 err(m)
@@ -86,12 +86,12 @@ c
 c     **********
       integer i,j
       double precision eps,epsf,epslog,epsmch,factor,one,temp,zero
-      double precision dpmpar
+      double precision dpmpar_
       data factor,one,zero /1.0d2,1.0d0,0.0d0/
 c
 c     epsmch is the machine precision.
 c
-      epsmch = dpmpar(1)
+      epsmch = dpmpar_(1)
 c
       eps = dsqrt(epsmch)
 c

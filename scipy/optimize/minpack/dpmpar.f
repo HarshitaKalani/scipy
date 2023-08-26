@@ -1,5 +1,5 @@
       recursive
-     *double precision function dpmpar(i)
+     *double precision function dpmpar_(i)
       integer i
 c     **********
 c
@@ -170,7 +170,7 @@ c
       data dmach(2) /2.22507385852d-308/
       data dmach(3) /1.79769313485d+308/
 c
-      dpmpar = dmach(i)
+      dpmpar_ = dmach(i)
       return
 c
 c     Last card of function dpmpar.

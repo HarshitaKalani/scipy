@@ -1,5 +1,5 @@
       recursive
-     *subroutine dogleg(n,r,lr,diag,qtb,delta,x,wa1,wa2)
+     *subroutine dogleg_(n,r,lr,diag,qtb,delta,x,wa1,wa2)
       integer n,lr
       double precision delta
       double precision r(lr),diag(n),qtb(n),x(n),wa1(n),wa2(n)
@@ -63,12 +63,12 @@ c     **********
       integer i,j,jj,jp1,k,l
       double precision alpha,bnorm,epsmch,gnorm,one,qnorm,sgnorm,sum,
      *                 temp,zero
-      double precision dpmpar,enorm
+      double precision dpmpar_,enorm_
       data one,zero /1.0d0,0.0d0/
 c
 c     epsmch is the machine precision.
 c
-      epsmch = dpmpar(1)
+      epsmch = dpmpar_(1)
 c
 c     first, calculate the gauss-newton direction.
 c
@@ -104,7 +104,7 @@ c
          wa1(j) = zero
          wa2(j) = diag(j)*x(j)
    60    continue
-      qnorm = enorm(n,wa2)
+      qnorm = enorm_(n,wa2)
       if (qnorm .le. delta) go to 140
 c
 c     the gauss-newton direction is not acceptable.
@@ -123,7 +123,7 @@ c
 c     calculate the norm of the scaled gradient and test for
 c     the special case in which the scaled gradient is zero.
 c
-      gnorm = enorm(n,wa1)
+      gnorm = enorm_(n,wa1)
       sgnorm = zero
       alpha = delta/qnorm
       if (gnorm .eq. zero) go to 120
@@ -143,7 +143,7 @@ c
   100       continue
          wa2(j) = sum
   110    continue
-      temp = enorm(n,wa2)
+      temp = enorm_(n,wa2)
       sgnorm = (gnorm/temp)/temp
 c
 c     test whether the scaled gradient direction is acceptable.
@@ -155,7 +155,7 @@ c     the scaled gradient direction is not acceptable.
 c     finally, calculate the point along the dogleg
 c     at which the quadratic is minimized.
 c
-      bnorm = enorm(n,qtb)
+      bnorm = enorm_(n,qtb)
       temp = (bnorm/gnorm)*(bnorm/qnorm)*(sgnorm/delta)
       temp = temp - (delta/qnorm)*(sgnorm/delta)**2
      *       + dsqrt((temp-(delta/qnorm))**2

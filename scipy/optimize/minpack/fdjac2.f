@@ -1,5 +1,5 @@
       recursive
-     *subroutine fdjac2(fcn,m,n,x,fvec,fjac,ldfjac,iflag,epsfcn,wa)
+     *subroutine fdjac2_(fcn,m,n,x,fvec,fjac,ldfjac,iflag,epsfcn,wa)
       integer m,n,ldfjac,iflag
       double precision epsfcn
       double precision x(n),fvec(m),fjac(ldfjac,n),wa(m)
@@ -80,12 +80,12 @@ c
 c     **********
       integer i,j
       double precision eps,epsmch,h,temp,zero
-      double precision dpmpar
+      double precision dpmpar_
       data zero /0.0d0/
 c
 c     epsmch is the machine precision.
 c
-      epsmch = dpmpar(1)
+      epsmch = dpmpar_(1)
 c
       eps = dsqrt(dmax1(epsfcn,epsmch))
       do 20 j = 1, n

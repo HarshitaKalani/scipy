@@ -1,5 +1,5 @@
       recursive
-     *subroutine lmstr(fcn,m,n,x,fvec,fjac,ldfjac,ftol,xtol,gtol,
+     *subroutine lmstr_(fcn,m,n,x,fvec,fjac,ldfjac,ftol,xtol,gtol,
      *                 maxfev,diag,mode,factor,nprint,info,nfev,njev,
      *                 ipvt,qtf,wa1,wa2,wa3,wa4)
       integer m,n,ldfjac,maxfev,mode,nprint,info,nfev,njev
@@ -188,13 +188,13 @@ c     **********
       double precision actred,delta,dirder,epsmch,fnorm,fnorm1,gnorm,
      *                 one,par,pnorm,prered,p1,p5,p25,p75,p0001,ratio,
      *                 sum,temp,temp1,temp2,xnorm,zero
-      double precision dpmpar,enorm
+      double precision dpmpar_,enorm_
       data one,p1,p5,p25,p75,p0001,zero
      *     /1.0d0,1.0d-1,5.0d-1,2.5d-1,7.5d-1,1.0d-4,0.0d0/
 c
 c     epsmch is the machine precision.
 c
-      epsmch = dpmpar(1)
+      epsmch = dpmpar_(1)
 c
       info = 0
       iflag = 0
@@ -219,7 +219,7 @@ c
       call fcn(m,n,x,fvec,wa3,iflag)
       nfev = 1
       if (iflag .lt. 0) go to 340
-      fnorm = enorm(m,fvec)
+      fnorm = enorm_(m,fvec)
 c
 c     initialize levenberg-marquardt parameter and iteration counter.
 c
@@ -254,7 +254,7 @@ c
             call fcn(m,n,x,fvec,wa3,iflag)
             if (iflag .lt. 0) go to 340
             temp = fvec(i)
-            call rwupdt(n,fjac,ldfjac,wa3,qtf,temp,wa1,wa2)
+            call rwupdt_(n,fjac,ldfjac,wa3,qtf,temp,wa1,wa2)
             iflag = iflag + 1
    70       continue
          njev = njev + 1
@@ -266,10 +266,10 @@ c
          do 80 j = 1, n
             if (fjac(j,j) .eq. zero) sing = .true.
             ipvt(j) = j
-            wa2(j) = enorm(j,fjac(1,j))
+            wa2(j) = enorm_(j,fjac(1,j))
    80       continue
          if (.not.sing) go to 130
-         call qrfac(n,n,fjac,ldfjac,.true.,ipvt,n,wa1,wa2,wa3)
+         call qrfac_(n,n,fjac,ldfjac,.true.,ipvt,n,wa1,wa2,wa3)
          do 120 j = 1, n
             if (fjac(j,j) .eq. zero) go to 110
             sum = zero
@@ -302,7 +302,7 @@ c
          do 160 j = 1, n
             wa3(j) = diag(j)*x(j)
   160       continue
-         xnorm = enorm(n,wa3)
+         xnorm = enorm_(n,wa3)
          delta = factor*xnorm
          if (delta .eq. zero) delta = factor
   170    continue
@@ -342,7 +342,7 @@ c
 c
 c           determine the levenberg-marquardt parameter.
 c
-            call lmpar(n,fjac,ldfjac,ipvt,diag,qtf,delta,par,wa1,wa2,
+            call lmpar_(n,fjac,ldfjac,ipvt,diag,qtf,delta,par,wa1,wa2,
      *                 wa3,wa4)
 c
 c           store the direction p and x + p. calculate the norm of p.
@@ -352,7 +352,7 @@ c
                wa2(j) = x(j) + wa1(j)
                wa3(j) = diag(j)*wa1(j)
   250          continue
-            pnorm = enorm(n,wa3)
+            pnorm = enorm_(n,wa3)
 c
 c           on the first iteration, adjust the initial step bound.
 c
@@ -364,7 +364,7 @@ c
             call fcn(m,n,wa2,wa4,wa3,iflag)
             nfev = nfev + 1
             if (iflag .lt. 0) go to 340
-            fnorm1 = enorm(m,wa4)
+            fnorm1 = enorm_(m,wa4)
 c
 c           compute the scaled actual reduction.
 c
@@ -382,7 +382,7 @@ c
                   wa3(i) = wa3(i) + fjac(i,j)*temp
   260             continue
   270          continue
-            temp1 = enorm(n,wa3)/fnorm
+            temp1 = enorm_(n,wa3)/fnorm
             temp2 = (dsqrt(par)*pnorm)/fnorm
             prered = temp1**2 + temp2**2/p5
             dirder = -(temp1**2 + temp2**2)
@@ -423,7 +423,7 @@ c
             do 320 i = 1, m
                fvec(i) = wa4(i)
   320          continue
-            xnorm = enorm(n,wa2)
+            xnorm = enorm_(n,wa2)
             fnorm = fnorm1
             iter = iter + 1
   330       continue

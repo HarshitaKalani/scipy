@@ -229,7 +229,7 @@ c       for further documentation.)
 c
         implicit none
         integer m,n,krank,ifrescal,k,lra,ier,m2
-        real*8 eps,enorm
+        real*8 eps,enorm_
         complex*16 x(m),ra(n,2,*),p1,p2,p3,p4,scal(n+1),y(n),residual
         external matveca
 c
@@ -267,13 +267,13 @@ c
 c
 c           Compute the Euclidean norm of y.
 c
-            enorm = 0
+            enorm_ = 0
 c
             do k = 1,n
-              enorm = enorm + y(k)*conjg(y(k))
+              enorm_ = enorm_ + y(k)*conjg(y(k))
             enddo ! k
 c
-            enorm = sqrt(enorm)
+            enorm_ = sqrt(enorm_)
 c
           endif ! krank .eq. 0
 c
@@ -301,7 +301,7 @@ c
           krank = krank+1
 c
 c
-        if(abs(residual) .gt. eps*enorm
+        if(abs(residual) .gt. eps*enorm_
      1   .and. krank .lt. m .and. krank .lt. n)
      2   goto 1000
 c

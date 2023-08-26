@@ -82,7 +82,7 @@ c            13 (4): 1992, 1094-1122.
 c
         implicit none
         integer m,n,its,it,k
-        real*8 snorm,enorm,p1t,p2t,p3t,p4t,p1,p2,p3,p4,u(m),v(n)
+        real*8 snorm,enorm_,p1t,p2t,p3t,p4t,p1,p2,p3,p4,u(m),v(n)
         external matvect,matvec
 c
 c
@@ -99,10 +99,10 @@ c
 c
 c       Normalize v.
 c
-        call idd_enorm(n,v,enorm)
+        call idd_enorm(n,v,enorm_)
 c
         do k = 1,n
-          v(k) = v(k)/enorm
+          v(k) = v(k)/enorm_
         enddo ! k
 c
 c
@@ -139,7 +139,7 @@ c
 c
 c
 c
-        subroutine idd_enorm(n,v,enorm)
+        subroutine idd_enorm(n,v,enorm_)
 c
 c       computes the Euclidean norm of v, the square root
 c       of the sum of the squares of the entries of v.
@@ -153,16 +153,16 @@ c       enorm -- Euclidean norm of v
 c
         implicit none
         integer n,k
-        real*8 enorm,v(n)
+        real*8 enorm_,v(n)
 c
 c
-        enorm = 0
+        enorm_ = 0
 c
         do k = 1,n
-          enorm = enorm+v(k)**2
+          enorm_ = enorm_+v(k)**2
         enddo ! k
 c
-        enorm = sqrt(enorm)
+        enorm_ = sqrt(enorm_)
 c
 c
         return
@@ -329,7 +329,7 @@ c       for further documentation.)
 c
         implicit none
         integer m,n,its,it,k
-        real*8 snorm,enorm,p1t,p2t,p3t,p4t,p1t2,p2t2,p3t2,p4t2,
+        real*8 snorm,enorm_,p1t,p2t,p3t,p4t,p1t2,p2t2,p3t2,p4t2,
      1         p1,p2,p3,p4,p12,p22,p32,p42,u(m),u1(m),u2(m),
      2         v(n),v1(n),v2(n)
         external matvect,matvec,matvect2,matvec2
@@ -348,10 +348,10 @@ c
 c
 c       Normalize v.
 c
-        call idd_enorm(n,v,enorm)
+        call idd_enorm(n,v,enorm_)
 c
         do k = 1,n
-          v(k) = v(k)/enorm
+          v(k) = v(k)/enorm_
         enddo ! k
 c
 c

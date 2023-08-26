@@ -1,5 +1,5 @@
       recursive
-     *subroutine lmder1(fcn,m,n,x,fvec,fjac,ldfjac,tol,info,ipvt,wa,
+     *subroutine lmder1_(fcn,m,n,x,fvec,fjac,ldfjac,tol,info,ipvt,wa,
      *                  lwa)
       integer m,n,ldfjac,info,lwa
       integer ipvt(n)
@@ -145,7 +145,7 @@ c
       gtol = zero
       mode = 1
       nprint = 0
-      call lmder(fcn,m,n,x,fvec,fjac,ldfjac,ftol,xtol,gtol,maxfev,
+      call lmder_(fcn,m,n,x,fvec,fjac,ldfjac,ftol,xtol,gtol,maxfev,
      *           wa(1),mode,factor,nprint,info,nfev,njev,ipvt,wa(n+1),
      *           wa(2*n+1),wa(3*n+1),wa(4*n+1),wa(5*n+1))
       if (info .eq. 8) info = 4

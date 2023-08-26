@@ -1,5 +1,5 @@
       recursive
-     *subroutine lmdif1(fcn,m,n,x,fvec,tol,info,iwa,wa,lwa)
+     *subroutine lmdif1_(fcn,m,n,x,fvec,tol,info,iwa,wa,lwa)
       integer m,n,info,lwa
       integer iwa(n)
       double precision tol
@@ -124,7 +124,7 @@ c
       mode = 1
       nprint = 0
       mp5n = m + 5*n
-      call lmdif(fcn,m,n,x,fvec,ftol,xtol,gtol,maxfev,epsfcn,wa(1),
+      call lmdif_(fcn,m,n,x,fvec,ftol,xtol,gtol,maxfev,epsfcn,wa(1),
      *           mode,factor,nprint,info,nfev,wa(mp5n+1),m,iwa,
      *           wa(n+1),wa(2*n+1),wa(3*n+1),wa(4*n+1),wa(5*n+1))
       if (info .eq. 8) info = 4
